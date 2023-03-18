@@ -1,0 +1,26 @@
+Minishell allowed functions
+
+
+readline, rl_on_new_line, rl_replace_line, rl_redisplay,
+add_history,
+waitpid, wait3, wait4,
+getcwd, chdir,
+stat, lstat, fstat,
+
+—————————————
+
+opendir, readdir, closedir,
+isatty, ttyname, ttyslot,
+ioctl,
+getenv,
+tcsetattr, tcgetattr,
+tgetent, tgetflag, tgetnum, tgetstr,
+tgoto, tputs
+
+
+Inskim
+fork, unlink, execve, dup, dup2, pipe, strerror, errno,
+
+
+skim
+wait, signal, kill,
