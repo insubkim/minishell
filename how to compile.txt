@@ -1,0 +1,10 @@
+일단 readline  함수들을 사용하려면 readline 라이브러리가 있어야하는데, 해당 라이브러리는 기본적으로 제공되지 않음.
+
+따라서, 다운 받아야함.
+
+brew install readline
+
+그리고 컴파일 할때, 라이브러리 위치와 라이브러리 이름, 헤더파일 위치를 컴파일러에게 알려줘야함. 
+(stdio 같은 표준 라이브러리는 안알려줘도 컴파일러가 알아서 찾아오지만 그 외에는 우리가 위치랑 이름 알려줘야함.)
+
+cc main.c -lreadline -L/Users/inskim/.brew/opt/readline/lib  -I/Users/inskim/.brew/opt/readline/include
