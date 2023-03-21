@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   handle_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/18 19:53:16 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/21 21:39:53 by insub            ###   ########.fr       */
+/*   Created: 2023/03/20 20:37:44 by insub             #+#    #+#             */
+/*   Updated: 2023/03/21 20:59:15 by insub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int argc, char **argv, char **envp)
+void	handle_line(char *line)
 {
-	//make bulletin commands
-	//register signal handler
-	char	*line;
-	
-	while (1)
-	{
-		line = readline("minishell> ");
-		if (line)
-		{
-			add_history(line);
-			handle_line(line);
-			free(line);
-		}
-	}
-	return (0);
+    //parse line#$
+    //execute command 
+    //free
+    //wait child processes
 }
+
+typedef struct s_cmd
+{
+    char    *cmd;
+    char    **args;
+}   t_cmd;
+
+typedef struct s_list
+{
+    t_cmd           *cmd;
+    struct s_list   *next;
+}   t_list;

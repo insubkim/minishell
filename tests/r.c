@@ -3,13 +3,13 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-
+#include <unistd.h>
+void rl_replace_line (const char *text, int clear_undo);
 int main(void) {
     char *input;
-
+    input = readline("Enter text: ");
     while (1) {
-        input = readline("Enter text: ");
-
+        
         if (strlen(input) >= 10) {
             printf("Error: Input must be less than 10 characters\n");
             free(input);
@@ -27,8 +27,12 @@ int main(void) {
 
         free(input);
         rl_replace_line("", 0);
-        rl_redisplay();
+        input = readline("Enter text: ");
+        
         rl_on_new_line();
+        rl_redisplay();
+        printf("\n");
+        //sleep(3);
     }
 
     return 0;
