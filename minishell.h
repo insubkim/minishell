@@ -6,7 +6,7 @@
 /*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:12 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/21 21:41:41 by insub            ###   ########.fr       */
+/*   Updated: 2023/03/21 23:15:03 by insub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ typedef struct s_cmd
 {
     char    *cmd;
     char    **args;
-    int     file_in;
-    int     file_out;
-    int     is_heredoc;
-    int     is_append_mode;
+    char    **file_redirect_in;
+    char    **file_redirect_out;
+    int     is_heredoc;//Boolean type
+    int     is_append_mode;//Boolean type
 }   t_cmd;
 
 typedef struct s_pid

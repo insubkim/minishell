@@ -6,7 +6,7 @@
 /*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:16 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/21 21:39:53 by insub            ###   ########.fr       */
+/*   Updated: 2023/03/21 23:32:01 by insub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,17 @@
 int main(int argc, char **argv, char **envp)
 {
 	//make bulletin commands
-	//register signal handler
 	char	*line;
 	
+	//register signal handler
 	while (1)
 	{
 		line = readline("minishell> ");
 		if (line)
 		{
-			add_history(line);
-			handle_line(line);
+			if (strcmp(line, ""))
+				add_history(line);
+			//handle_line(line);
 			free(line);
 		}
 	}
