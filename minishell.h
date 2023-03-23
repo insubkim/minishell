@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:12 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/21 23:15:03 by insub            ###   ########.fr       */
+/*   Updated: 2023/03/23 20:06:44 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
+# include <signal.h>
+#include <termios.h>
 // has to delete, forbidden functions
 # include <string.h>
 //-----------------------------------
