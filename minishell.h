@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:12 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/24 23:06:57 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/25 03:25:53 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ typedef struct s_cmd
     char    **args;
     char    **file_in;
     char    **file_in_heredoc;
+    int     is_here_doc;
     char    **file_out;
     char    **file_out_append;
+    int     is_append;
     int     pid;
 }    t_cmd;
 

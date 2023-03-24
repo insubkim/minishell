@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:42:26 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/24 23:09:48 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/25 02:08:22 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*get_pathname(char *command, char **envp)
 	}
 	if (pathname)
 		return (pathname);
-	else if (access((const char *)command, F_OK))
+	else if (!access((const char *)command, F_OK))
 		return (command);
 	print_term("command not found\n");
 	return (0);
