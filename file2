@@ -1,0 +1,12 @@
+Makefile
+alias.sh
+file1
+file2
+handle_line.c
+how to compile.txt
+main.c
+main.o
+minishell
+minishell.h
+signal.c
+tests

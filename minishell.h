@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:12 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/23 20:06:44 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/24 19:38:27 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,13 @@ typedef struct s_cmd
     int     is_append_mode;//Boolean type
 }   t_cmd;
 
-typedef struct s_pid
-{
-    pid_t   pid;
-    struct s_pid    *next;
-}   t_pid;
-
 typedef struct s_list
 {
     void            *data;
     struct s_list   *next;
 }   t_list;
 
-void	handle_line(char *line);
+void	handle_line(char *line, char **envp);
+void rl_replace_line (const char *text, int clear_undo);
 
 #endif

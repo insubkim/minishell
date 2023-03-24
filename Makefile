@@ -6,7 +6,7 @@
 #    By: inskim <inskim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/15 08:02:44 by inskim            #+#    #+#              #
-#    Updated: 2023/03/23 19:58:53 by inskim           ###   ########.fr        #
+#    Updated: 2023/03/24 19:25:42 by inskim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ HEADER = minishell.h
 all: $(NAME)
 
 $(NAME): $(OBJ) $(HEADER)
-	cc $(OBJ) -lreadline -L/Users/inskim/.brew/opt/readline/lib  -I/Users/inskim/.brew/opt/readline/include
+	cc -o $(NAME) $(OBJ) -lreadline -L/Users/inskim/.brew/opt/readline/lib  -I/Users/inskim/.brew/opt/readline/include
 clean:
 	rm -f $(OBJ)
 
