@@ -6,7 +6,7 @@
 #    By: inskim <inskim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/15 08:02:44 by inskim            #+#    #+#              #
-#    Updated: 2023/03/24 23:10:29 by inskim           ###   ########.fr        #
+#    Updated: 2023/03/24 23:18:26 by inskim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS = -Wall -Werror -Wextra -g
 
 EXECUTE_SRC = execute_cmd_list.c path_name.c
 PARSE_SRC = 
@@ -37,7 +37,7 @@ all: $(NAME)
 $(NAME): $(OBJ) $(HEADER)
 	cc -o $(NAME) $(OBJ) \
 	-lreadline \
-	-L/Users/inskim/.brew/opt/readline/lib \  
+	-L/Users/inskim/.brew/opt/readline/lib \
 	-I/Users/inskim/.brew/opt/readline/include -I.
 clean:
 	rm -f $(OBJ)

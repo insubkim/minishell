@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:16 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/24 21:51:19 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/25 00:24:32 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int main(int argc, char **argv, char **envp)
 {
-	//make bulletin commands
 	char	*line;
-	
+
+	//make bulletin commands
 	//register signal handler
 	envp++;
 	envp--;
@@ -34,7 +34,7 @@ int main(int argc, char **argv, char **envp)
 			{
 				add_history(line);
 				//1개 이상의 스페이스는 핸들라인 해야하나??
-				//> , < 과 같은 리다이렉션만 있는 경우 핸들라인 해야할까?
+				//> , < , >>과 같은 리다이렉션만 있는 경우 핸들라인 해야할까?
 				//<< 히어독은 해야할듯..
 				handle_line(line, envp);
 			}
