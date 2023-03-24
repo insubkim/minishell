@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 19:48:54 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/25 03:26:51 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/25 08:56:23 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,54 @@ int	set_pipe(t_list *cmd_list, int read_end, int std_fd[2])
 	return (pipe_fd[0]);
 }
 
+int	access_files(t_cmd *cmd)
+{
+	//이상함. out은 파일 없더라고 정상일수 있음.
+	while (*(cmd->file_in))
+	{
+		if (access(*(cmd->file_in), F_OK | R_OK))
+			return (0);
+		cmd->file_in++;
+	}
+	while (*(cmd->file_out))
+	{
+		if (access(*(cmd->file_out), F_OK | R_OK | W_OK))
+			return (0);
+		if (*(cmd->file_out + 1))
+			open(*(cmd->file_out), O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		cmd->file_out++;
+	}
+	while (*(cmd->file_out_append))
+	{
+		if (access(*(cmd->file_out_append), F_OK | R_OK | W_OK))
+			return (0);
+		if (*(cmd->file_out_append + 1))
+			open(*(cmd->file_out_append), O_WRONLY | O_APPEND | O_CREAT, 0644);
+		cmd->file_out_append++;
+	}
+	return (1);
+}
+
 int	redirect_file(t_cmd *cmd, int std_fd[2])
 {
-	//open file in
-	//open heredoc file in
-	//open file out
-	//open file out append
-
-	//if fail return 0;
+	if (!access_files(cmd))
+	{
+		print_term("file access error");//error code에 따라 다르게 display
+		return (0);
+	}
+	//if (cmd->is_heredoc)
+		//gnl until heredoc
+	else if (*(cmd->file_in))
+		dup2(open(get_last_str(cmd->file_in), O_RDONLY), 0);
+	else
+		dup2(std_fd[0], 0);
+	if (cmd->is_append)
+		dup2(open(get_last_str(cmd->file_out_append), O_WRONLY | O_CREAT | O_APPEND, 0644), 1);
+	else if (*(cmd->file_out))
+		dup2(open(get_last_str(cmd->file_out), O_WRONLY | O_CREAT | O_TRUNC, 0644), 1);
+	else
+		dup2(std_fd[1], 1);
+	return (1);
 }
 
 void	execute_cmd_list(t_list *cmd_list, char **envp)

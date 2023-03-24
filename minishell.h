@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:12 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/25 03:25:53 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/25 08:30:28 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
-#include <termios.h>
-// has to delete, forbidden functions
+# include <termios.h>
+# include <fcntl.h>
+
+
+
+// forbidden functions
 # include <string.h>
 //-----------------------------------
 
@@ -30,7 +34,7 @@ typedef struct s_cmd
     char    **args;
     char    **file_in;
     char    **file_in_heredoc;
-    int     is_here_doc;
+    int     is_heredoc;
     char    **file_out;
     char    **file_out_append;
     int     is_append;
@@ -51,5 +55,6 @@ int     ft_strlen(char *s);
 int     ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*get_pathname(char *command, char **envp);
 void	print_term(char *str);
+char	*get_last_str(char **arr);
 
 #endif

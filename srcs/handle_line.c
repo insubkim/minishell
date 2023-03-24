@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 20:37:44 by insub             #+#    #+#             */
-/*   Updated: 2023/03/25 03:26:16 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/25 08:54:56 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,17 +102,17 @@ void	handle_line(char *line, char **envp)
     cmd_list[2].next = NULL;
     
     cmd_list[0].data->cmd = malloc(3);
-    cmd_list[0].data->cmd[0] = 's';
-    cmd_list[0].data->cmd[1] = '\0';
-    cmd_list[0].data->cmd[2] = 0;
+    cmd_list[0].data->cmd[0] = 'l';
+    cmd_list[0].data->cmd[1] = 's';
+    cmd_list[0].data->cmd[2] = '\0';
     
-    cmd_list[0].data->args = ft_split("s -a -l", ' ');
+    cmd_list[0].data->args = ft_split("ls -a -l", ' ');
     cmd_list[0].data->file_in = ft_split("file1 file2", ' ');
-    cmd_list[0].data->file_out = ft_split("file3 file4 file5", ' ');
+    cmd_list[0].data->file_out = ft_split("", ' ');
     cmd_list[0].data->file_in_heredoc = ft_split("heredoc", ' ');
     cmd_list[0].data->file_out_append = ft_split("file_append", ' ');
     cmd_list[0].data->pid = 0;
-    cmd_list[0].data->is_heredoc = 1;
+    cmd_list[0].data->is_heredoc = 0;
     cmd_list[0].data->is_append = 0;
 
     execute_cmd_list(cmd_list, envp);
