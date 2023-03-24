@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 20:37:44 by insub             #+#    #+#             */
-/*   Updated: 2023/03/24 19:37:52 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/24 21:40:49 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,35 @@
 void	handle_line(char *line, char **envp)
 {
     //t_list  *cmd_list;
-    int     *pid_list;
     //parse line
     //cmd_list = parse_line(line);
     
 
     //test case 
+    line++;
     t_cmd   cmd[3];
     t_list  cmd_list[3];
 
-    cmd[0].command = "ls";
-    cmd[0].file_in = NULL;
-    cmd[0].file_out = NULL;
+    cmd_list[0].data = &cmd[0];
+    cmd_list[1].data = &cmd[1];
+    cmd_list[2].data = &cmd[2];
+    cmd_list[0].next = &cmd_list[1];
+    cmd_list[1].next = &cmd_list[2];
+    cmd_list[2].next = NULL;
+    
+    cmd[0].cmd = "ls";
+    cmd[0].args = ft_split("ls -a -l", ' ');
+    cmd[0].file_in = ft_split("file1 file2", ' ');
+    cmd[0].file_out = ft_split("file3 file4 file5", ' ');
+    cmd[0].file_in_heredoc = ft_split("heredoc", ' ');
+    cmd[0].file_out_append = ft_split("file_append", ' ');
+    
 
     //execute command
-    pid_list = execute_cmd_list(cmd_list);
+    execute_cmd_list(cmd_list, envp);
     
     //wait child processes
-    //wait_child(pid_list);
+    //wait_child(cmd_list);
 
     //free
     //free_cmd_list(cmd_list);

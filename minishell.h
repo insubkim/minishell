@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:12 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/24 19:38:27 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/24 23:06:57 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,26 @@ typedef struct s_cmd
 {
     char    *cmd;
     char    **args;
-    char    **file_redirect_in;
-    char    **file_redirect_out;
-    int     is_heredoc;//Boolean type
-    int     is_append_mode;//Boolean type
-}   t_cmd;
+    char    **file_in;
+    char    **file_in_heredoc;
+    char    **file_out;
+    char    **file_out_append;
+    int     pid;
+}    t_cmd;
 
 typedef struct s_list
 {
-    void            *data;
+    t_cmd           *data;
     struct s_list   *next;
 }   t_list;
 
 void	handle_line(char *line, char **envp);
-void rl_replace_line (const char *text, int clear_undo);
+void    rl_replace_line (const char *text, int clear_undo);
+void	execute_cmd_list(t_list *cmd_list, char **envp);
+char	**ft_split(char const *s, char c);
+int     ft_strlen(char *s);
+int     ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*get_pathname(char *command, char **envp);
+void	print_term(char *str);
 
 #endif
