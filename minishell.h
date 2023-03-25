@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:12 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/25 08:30:28 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/25 15:50:01 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <signal.h>
 # include <termios.h>
 # include <fcntl.h>
+#include <sys/errno.h>
 
 
 
@@ -33,11 +34,7 @@ typedef struct s_cmd
     char    *cmd;
     char    **args;
     char    **file_in;
-    char    **file_in_heredoc;
-    int     is_heredoc;
     char    **file_out;
-    char    **file_out_append;
-    int     is_append;
     int     pid;
 }    t_cmd;
 

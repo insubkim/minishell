@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:42:26 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/25 02:08:22 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/25 15:54:23 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ char	*get_pathname(char *command, char **envp)
 	}
 	if (pathname)
 		return (pathname);
-	else if (!access((const char *)command, F_OK))
+	else if (!access((const char *)command, F_OK | X_OK))
 		return (command);
+	//access, errno 이용해서 파일이 존재, 권한 확인 구분해야함.
 	print_term("command not found\n");
+	print_term("Permission denied\n");
 	return (0);
 }
