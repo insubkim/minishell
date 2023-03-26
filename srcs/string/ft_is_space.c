@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_term.c                                       :+:      :+:    :+:   */
+/*   ft_is_space.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/24 22:45:17 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/26 17:40:30 by insub            ###   ########.fr       */
+/*   Created: 2023/03/26 17:19:14 by insub             #+#    #+#             */
+/*   Updated: 2023/03/26 17:21:19 by insub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_term(char *str)
+int    ft_is_space(char *str)
 {
-	printf("%s", str);
-}
-
-void	print_term_exit(char *str, int exit_code)
-{
-	printf("%s", str);
-	exit(exit_code);
+    while (*str)
+    {
+        if (*str != ' ' && *str != '\t')
+            return (0);
+        str++;
+    }
+    return (1);
 }

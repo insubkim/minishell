@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:16 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/25 15:44:14 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/26 17:23:48 by insub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,11 @@ int main(int argc, char **argv, char **envp)
 		line = readline("minishell> ");
 		if (line)
 		{
-			if (strcmp(line, ""))
-			//line이 '\0'이 아닌 경우에만 history에 추가
-			//line이 '   ' 이런식으로 공백만 있는 경우에도 추가
+			if (ft_strlen(line) > 0)
 			{
 				add_history(line);
-				//1개 이상의 ' '가 들어가 있는 경우 handle_line에서 처리해야할까?
-				handle_line(line, envp);
+				if (!ft_is_space(line))
+					handle_line(line, envp);
 			}
 			free(line);
 		}

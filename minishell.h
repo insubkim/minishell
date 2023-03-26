@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:12 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/25 15:50:01 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/26 17:41:03 by insub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ typedef struct s_cmd
 {
     char    *cmd;
     char    **args;
-    char    **file_in;
-    char    **file_out;
+    char    **file_redirection;
     int     pid;
 }    t_cmd;
 
@@ -52,6 +51,8 @@ int     ft_strlen(char *s);
 int     ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*get_pathname(char *command, char **envp);
 void	print_term(char *str);
+void	print_term_exit(char *str, int exit_code);
 char	*get_last_str(char **arr);
+int    ft_is_space(char *str);
 
 #endif

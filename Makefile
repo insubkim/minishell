@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: inskim <inskim@student.42.fr>              +#+  +:+       +#+         #
+#    By: insub <insub@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/15 08:02:44 by inskim            #+#    #+#              #
-#    Updated: 2023/03/25 08:34:39 by inskim           ###   ########.fr        #
+#    Updated: 2023/03/26 17:23:14 by insub            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ EXECUTE_SRC = execute_cmd_list.c path_name.c
 PARSE_SRC = 
 PRINT_SRC = print_term.c
 SIGNAL_SRC = #signal.c
-STRING_SRC = ft_split.c ft_strlen.c ft_strncmp.c get_last_str.c
+STRING_SRC = ft_split.c ft_strlen.c ft_strncmp.c get_last_str.c ft_is_space.c
 SRC = main.c handle_line.c \
 $(addprefix execute/, $(EXECUTE_SRC)) $(addprefix parse/, $(PARSE_SRC)) \
 $(addprefix print/, $(PRINT_SRC)) $(addprefix signal/, $(SIGNAL_SRC)) \

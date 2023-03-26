@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 19:48:54 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/25 15:56:16 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/26 18:02:24 by insub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,19 @@ void	execute_cmd_list(t_list *cmd_list, char **envp)
 		if (pid == 0)
 		{
 			//파일 리다이렉션
-			if (!redirect_file(cmd_list->data, std_fd))
-				exit(1);
 			//file not found, permission denied 는 둘다 1로 종료.
+			if (!redirect_file(cmd_list->data, std_fd))
+				handle_error();
 			//명령어 실행
-			path_name = get_pathname(cmd_list->data->cmd, envp);
-			if (!path_name)
-				exit(127,126);
-			//command not found, command not executable 는 각각 127, 126으로 종료. 
+			//command not found, is directory 는 각각 127, 126으로 종료. 
 			//access() 함수와 errno 를 이용해서 파일이 존재, 권한 확인
 			//없는 파일은 errno = 2
 			//권한이 없는 파일은 errno = 13
+			path_name = get_pathname(cmd_list->data->cmd, envp);
+			if (!path_name)
+				handle_error();
 			execve(path_name, cmd_list->data->args, envp);
+			free(path_name);
 			print_term("execve error");
 			exit(126);
 		}

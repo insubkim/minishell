@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 20:37:44 by insub             #+#    #+#             */
-/*   Updated: 2023/03/25 15:44:22 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/26 17:28:04 by insub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,7 @@ void    free_cmd_list(t_list *cmd_list)
         cmd = node->data;
         free(cmd->cmd);
         free_str_arr(cmd->args);
-        free_str_arr(cmd->file_in);
-        free_str_arr(cmd->file_out);
-        free_str_arr(cmd->file_in_heredoc);
-        free_str_arr(cmd->file_out_append);
+        free_str_arr(cmd->file_redirection);
         free(cmd);
         node = node->next;
     }
@@ -91,8 +88,7 @@ void	handle_line(char *line, char **envp)
     cmd_list[0].data->cmd = strdup("ls");
     
     cmd_list[0].data->args = ft_split("ls -a -l", ' ');
-    cmd_list[0].data->file_in = ft_split("<file1 <<file2", ' ');
-    cmd_list[0].data->file_out = ft_split(">file3 >file4 >>file5", ' ');
+    cmd_list[0].data->file_redirection = ft_split("<file1 <<file2 >file3 >file4 >>file5", ' ');
     cmd_list[0].data->pid = 0;
     //==================================================================
 

@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_term.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: inskim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/24 22:45:17 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/26 17:40:30 by insub            ###   ########.fr       */
+/*   Created: 2022/04/18 16:10:19 by inskim            #+#    #+#             */
+/*   Updated: 2022/04/20 20:26:39 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	print_term(char *str)
+int	ft_strcmp(char *s1, char *s2)
 {
-	printf("%s", str);
-}
-
-void	print_term_exit(char *str, int exit_code)
-{
-	printf("%s", str);
-	exit(exit_code);
+	while (*s1 == *s2)
+	{
+		if (*s1++ == 0)
+			return (0);
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
