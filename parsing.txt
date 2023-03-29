@@ -1,0 +1,39 @@
+cmd1 <file1<<file2 >file3 >>file4 <file5 | <file2 cmd2 > file7 \
+| cmd3 -arg1 -arg2 | -arg < file10 cmd4
+
+ft_split(line, ' ');
+
+cmd1
+
+<file1<<file2
+>file3
+>>file4
+<file5|<file2
+cmd2
+>
+file7
+
+
+0. ' ', " " 확인.
+    있다면, 무조건 짝이 맞아야함. 
+    대신에 따옴표 안에 있는 다른 종류의 따옴표는 문자로 인식해야함.
+    홀수면 에러, 짝수면 따옴표 지우기.
+    ls | awk '{print $1}'
+    ft_split()
+ 
+1. | 끊기.
+    | 사이에 없거나 빈칸(들)은 에러임.
+2. > < << >> 다음 오는 whitespace 는 지우기. (리다이렉션 빼고)문자는 무조건 파일 리다이렉션.
+            다음에 아무것도 없을때는 에러임.
+            에러 예시)
+            ls > > a
+            ls ><
+            ls >' '
+            파일 ' '
+                 export path="hi"
+| ' " > < >> << 
+
+3. $
+
+              
+            

@@ -6,7 +6,7 @@
 /*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 20:37:44 by insub             #+#    #+#             */
-/*   Updated: 2023/03/26 17:28:04 by insub            ###   ########.fr       */
+/*   Updated: 2023/03/29 23:03:54 by insub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	handle_line(char *line, char **envp)
     //SKIM2 화이팅~!(1) ^ ~ ^
     
 
+
+
     //테스트 케이스======================================================= 
     line++;
     cmd_list = malloc(sizeof(t_list) * 3);
@@ -88,6 +90,7 @@ void	handle_line(char *line, char **envp)
     cmd_list[0].data->cmd = strdup("ls");
     
     cmd_list[0].data->args = ft_split("ls -a -l", ' ');
+    
     cmd_list[0].data->file_redirection = ft_split("<file1 <<file2 >file3 >file4 >>file5", ' ');
     cmd_list[0].data->pid = 0;
     //==================================================================
@@ -96,7 +99,7 @@ void	handle_line(char *line, char **envp)
     execute_cmd_list(cmd_list, envp);
     //자식 프로세스 종료 대기
     wait_child(cmd_list);
-    //부모 프로세스 시그널 켜기
+    //부모 프로세스 시그널 켜기 <-  필요없음,
     //킹갓 SKIM2 화이팅~!(2) > o <
     
     //동적 할당 해제

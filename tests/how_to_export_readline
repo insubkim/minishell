@@ -1,5 +1,0 @@
-  export LDFLAGS="-L/Users/inskim/.brew/opt/readline/lib"
-  export CPPFLAGS="-I/Users/inskim/.brew/opt/readline/include"
-
-
-cc t.c -lreadline -L/Users/inskim/.brew/opt/readline/lib  -I/Users/inskim/.brew/opt/readline/include

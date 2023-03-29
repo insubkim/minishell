@@ -6,7 +6,7 @@
 /*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:16 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/26 17:23:48 by insub            ###   ########.fr       */
+/*   Updated: 2023/03/28 22:40:48 by insub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 	1. 파싱
 	2. 시그널
 	3. bulletin 명령어
-	4. 명령 실행부 
-	5. 출력부 (readline 고려했을 때)
+	4. 명령 실행부 5. 출력부 (readline 고려했을 때)
 */
 
 int main(int argc, char **argv, char **envp)
@@ -28,12 +27,12 @@ int main(int argc, char **argv, char **envp)
 
 	//시느널 핸들러 등록
 	//SKIM2 화이팅~!(0)
+	//line = "minishell> ";
 
-	while (1)
+	while ((line = readline("minishell> ")))
 	{
-		line = readline("minishell> ");
 		if (line)
-		{
+		{	
 			if (ft_strlen(line) > 0)
 			{
 				add_history(line);

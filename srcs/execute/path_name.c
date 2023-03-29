@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_name.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:42:26 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/25 15:54:23 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/29 22:02:31 by insub            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*get_pathname(char *command, char **envp)
 	while (*envp_path)
 	{
 		pathname = cmd_strjoin(*envp_path++, command);
-		if (!access((const char *)pathname, F_OK))
+		if (!access((const char *)pathname, F_OK | X_OK))
 			break ;
 		free(pathname);
 		pathname = 0;
@@ -67,8 +67,8 @@ char	*get_pathname(char *command, char **envp)
 		return (pathname);
 	else if (!access((const char *)command, F_OK | X_OK))
 		return (command);
-	//access, errno 이용해서 파일이 존재, 권한 확인 구분해야함.
-	print_term("command not found\n");
-	print_term("Permission denied\n");
+	print_term("./srcs/: is a directory\n");//126
+	print_term("./ssss: No such file or directory\n");//127
+	print_term("./minishell: Permission denied\n");//126
 	return (0);
 }
