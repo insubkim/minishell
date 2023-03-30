@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 19:48:54 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/29 22:01:56 by insub            ###   ########.fr       */
+/*   Updated: 2023/03/30 21:37:23 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,20 @@ void	redirect_file(char **redirection, int std_fd[2])
 	//open() 함수를 필요한 권한 이용해서 파일을 열고 fd를 얻어옴
 	//dup2() 함수를 이용해서 fd를 0, 1로 복사
 	//안쓰면 close() 함수를 이용해서 fd를 닫아줌
-	while (redirection)
-	{
-		if ((*redirection)[0] == '<' && (*redirection)[1] == '<')
-			heredoc(&((*redirection)[2]), std_fd);
-		else if ((*redirection)[0] == '<')
-			redirection_input(&((*redirection)[1]), std_fd);
-		else if ((*redirection)[0] == '>' && (*redirection)[1] != '>')
-			redirection_output_append(&((*redirection)[2]), std_fd);
-		else
-			redirection_output(&((*redirection)[1]), std_fd);	
-		redirection++;
-	}
+	// while (redirection)
+	// {
+	// 	if ((*redirection)[0] == '<' && (*redirection)[1] == '<')
+	// 		heredoc(&((*redirection)[2]), std_fd);
+	// 	else if ((*redirection)[0] == '<')
+	// 		redirection_input(&((*redirection)[1]), std_fd);
+	// 	else if ((*redirection)[0] == '>' && (*redirection)[1] != '>')
+	// 		redirection_output_append(&((*redirection)[2]), std_fd);
+	// 	else
+	// 		redirection_output(&((*redirection)[1]), std_fd);	
+	// 	redirection++;
+	// }
+	redirection++;
+	std_fd++;
 }
 
 void	execute_cmd_list(t_list *cmd_list, char **envp)
@@ -71,8 +73,8 @@ void	execute_cmd_list(t_list *cmd_list, char **envp)
 		{
 			redirect_file(cmd_list->data->file_redirection, std_fd);
 			path_name = get_pathname(cmd_list->data->cmd, envp);
-			if (!path_name)
-				handle_error();
+			//if (!path_name)
+				//handle_error();
 			execve(path_name, cmd_list->data->args, envp);
 			free(path_name);
 			print_term("execve error");

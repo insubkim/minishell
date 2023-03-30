@@ -3,46 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:16 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/28 22:40:48 by insub            ###   ########.fr       */
+/*   Updated: 2023/03/30 21:34:19 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-	구현할 기능
-
-	1. 파싱
-	2. 시그널
-	3. bulletin 명령어
-	4. 명령 실행부 5. 출력부 (readline 고려했을 때)
-*/
+struct termios *term;
 
 int main(int argc, char **argv, char **envp)
 {
-	char	*line;
+    char    *line;
 
-	//시느널 핸들러 등록
-	//SKIM2 화이팅~!(0)
-	//line = "minishell> ";
-
-	while ((line = readline("minishell> ")))
-	{
-		if (line)
-		{	
-			if (ft_strlen(line) > 0)
-			{
-				add_history(line);
-				if (!ft_is_space(line))
-					handle_line(line, envp);
-			}
-			free(line);
-		}
-	}
-	argc++;
-	argv++;
-	return (0);
+    term = (struct termios *)malloc(sizeof(struct termios) * 2);
+    if (!term)
+        return (0);
+    set_signal();
+    save_input_mode(&(term[0]));
+    while ((line = readline("minishell> ")))
+    {
+        set_input_mode(&(term[1]));
+        if (line)
+        {
+            if (ft_strlen(line) > 0)
+            {
+                add_history(line);
+                if (!ft_is_space(line))
+                    handle_line(line, envp);
+            }
+            free(line);
+        }
+        reset_input_mode(&(term[0]));
+    }
+    argc++;
+    argv++;
+    return (0);
 }

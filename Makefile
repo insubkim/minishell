@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: insub <insub@student.42.fr>                +#+  +:+       +#+         #
+#    By: inskim <inskim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/15 08:02:44 by inskim            #+#    #+#              #
-#    Updated: 2023/03/29 18:55:24 by insub            ###   ########.fr        #
+#    Updated: 2023/03/30 21:38:34 by inskim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CFLAGS = -Wall  -Wextra -Werror -g
 EXECUTE_SRC = execute_cmd_list.c path_name.c
 PARSE_SRC = 
 PRINT_SRC = print_term.c
-SIGNAL_SRC = #signal.c
+SIGNAL_SRC = signal.c term.c
 STRING_SRC = ft_split.c ft_strlen.c ft_strncmp.c get_last_str.c ft_is_space.c 
 SRC = sig.c handle_line.c \
 $(addprefix execute/, $(EXECUTE_SRC)) $(addprefix parse/, $(PARSE_SRC)) \
@@ -36,9 +36,9 @@ all: $(NAME)
 
 $(NAME): $(OBJ) $(HEADER)
 	cc -o $(NAME) $(OBJ) \
-	-lreadline \
-	-L/opt/homebrew/opt/readline/lib \
-	-I/opt/homebrew/opt/readline/include -I.
+    -lreadline \
+    -L/Users/inskim/.brew/opt/readline/lib \
+    -I/Users/inskim/.brew/opt/readline/include -I.
 clean:
 	rm -f $(OBJ)
 
