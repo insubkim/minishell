@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_name.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:42:26 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/29 22:02:31 by insub            ###   ########.fr       */
+/*   Updated: 2023/03/31 13:04:01 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,23 @@ char	**get_path_variable(char **envp)
 	return (0);
 }
 
+void	handle_pathname_error(int errnum, char *command)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(command, 2);
+	if (errnum == 0)
+	{
+		ft_putstr_fd(": Permission denied\n", 2);
+		exit(126);	
+	}
+	else if (errnum == 1)
+	{
+		ft_putstr_fd(": command not found\n", 2);
+		exit(127);
+	}
+	exit(125);
+}
+
 char	*get_pathname(char *command, char **envp)
 {
 	char	*pathname;
@@ -58,7 +75,7 @@ char	*get_pathname(char *command, char **envp)
 	while (*envp_path)
 	{
 		pathname = cmd_strjoin(*envp_path++, command);
-		if (!access((const char *)pathname, F_OK | X_OK))
+		if (!access((const char *)pathname, F_OK))
 			break ;
 		free(pathname);
 		pathname = 0;
@@ -67,8 +84,9 @@ char	*get_pathname(char *command, char **envp)
 		return (pathname);
 	else if (!access((const char *)command, F_OK | X_OK))
 		return (command);
-	print_term("./srcs/: is a directory\n");//126
-	print_term("./ssss: No such file or directory\n");//127
-	print_term("./minishell: Permission denied\n");//126
+	else if (access((const char *)command, F_OK | X_OK))
+		handle_pathname_error(1, command);
+	else
+		handle_pathname_error(1, command);
 	return (0);
 }

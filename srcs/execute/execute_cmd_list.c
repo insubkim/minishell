@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 19:48:54 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/30 21:37:23 by inskim           ###   ########.fr       */
+/*   Updated: 2023/03/31 18:38:14 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,34 +32,25 @@ int	set_pipe(t_list *cmd_list, int read_end, int std_fd[2])
 	return (pipe_fd[0]);
 }
 
-void	redirect_file(char **redirection, int std_fd[2])
+void	redirect_file(char **redirection, char *heredoc)
 {
-	//access() 함수를 이용해서 파일이 존재, 권한 확인
-	//access 실패시 에러 메시지 출력 후 명령 실행 안함. 0,1 파이프 닫기.
-	//open() 함수를 필요한 권한 이용해서 파일을 열고 fd를 얻어옴
-	//dup2() 함수를 이용해서 fd를 0, 1로 복사
-	//안쓰면 close() 함수를 이용해서 fd를 닫아줌
-	// while (redirection)
-	// {
-	// 	if ((*redirection)[0] == '<' && (*redirection)[1] == '<')
-	// 		heredoc(&((*redirection)[2]), std_fd);
-	// 	else if ((*redirection)[0] == '<')
-	// 		redirection_input(&((*redirection)[1]), std_fd);
-	// 	else if ((*redirection)[0] == '>' && (*redirection)[1] != '>')
-	// 		redirection_output_append(&((*redirection)[2]), std_fd);
-	// 	else
-	// 		redirection_output(&((*redirection)[1]), std_fd);	
-	// 	redirection++;
-	// }
-	redirection++;
-	std_fd++;
+	while (redirection && *redirection)
+	{
+		if ((*redirection)[0] == '<' && (*redirection)[1] == '<')
+			redirection_heredoc(heredoc);
+		else if ((*redirection)[0] == '<')
+			redirection_input(&((*redirection)[1]));
+		else if ((*redirection)[0] == '>' && (*redirection)[1] == '>')
+			redirection_output_append(&((*redirection)[2]));
+		else if ((*redirection)[0] == '>')
+			redirection_output(&((*redirection)[1]));	
+		redirection++;
+	}
 }
 
-void	execute_cmd_list(t_list *cmd_list, char **envp)
+void	execute_cmd_list(t_list *cmd_list, char **envp, int *std_fd)
 {
-	int		pid;
 	char	*path_name;
-	int		std_fd[2];
 	int		read_end;
 
 	std_fd[0] = dup(0);
@@ -68,19 +59,17 @@ void	execute_cmd_list(t_list *cmd_list, char **envp)
 	while (cmd_list)
 	{
 		read_end = set_pipe(cmd_list, read_end, std_fd);
-		pid = fork();
-		if (pid == 0)
+		cmd_list->data->pid  = fork();
+		if (cmd_list->data->pid  == 0)
 		{
-			redirect_file(cmd_list->data->file_redirection, std_fd);
+			redirect_file(cmd_list->data->file_redirection, \
+			cmd_list->data->heredoc);
 			path_name = get_pathname(cmd_list->data->cmd, envp);
-			//if (!path_name)
-				//handle_error();
 			execve(path_name, cmd_list->data->args, envp);
 			free(path_name);
-			print_term("execve error");
+			ft_putstr_fd("execve error\n", 2);
 			exit(126);
 		}
-		cmd_list->data->pid = pid;
 		cmd_list = cmd_list->next;
 	}
 }

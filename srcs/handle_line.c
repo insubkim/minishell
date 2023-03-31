@@ -3,32 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   handle_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: insub <insub@student.42.fr>                +#+  +:+       +#+        */
+/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 20:37:44 by insub             #+#    #+#             */
-/*   Updated: 2023/03/29 23:03:54 by insub            ###   ########.fr       */
+/*   Updated: 2023/03/31 18:36:40 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*  파싱 참고
-    ls | ls ||| ls  같은 경우 에러만 나와야함. 앞의 명령어가 실행되지 않아야함.
-    에러 코드 반영 해야함.
-*/
-
-void    wait_child(t_list *cmd_list)
+void    wait_child(t_list *cmd_list, int *status)
 {
     t_list  *node;
-    int     status;
     int     pid;
+    int     tmp;
 
     node = cmd_list;
     while (node)
     {
         pid = node->data->pid;
         if (pid)
-            waitpid(pid, &status, 0);
+            waitpid(-1, &tmp, 0);
+        if (FT_WIFEXITED(tmp))
+            *status = FT_WEXITSTATUS(tmp);
+        else if (FT_WIFSIGNALED(tmp)) 
+            *status = FT_WTERMSIG(tmp);
+        else
+            *status = 124;
         node = node->next;
     }
 }
@@ -38,7 +39,7 @@ void    free_str_arr(char **str_arr)
     int i;
 
     i = 0;
-    while (str_arr[i])
+    while (str_arr && str_arr[i])
     {
         free(str_arr[i]);
         i++;
@@ -51,57 +52,43 @@ void    free_cmd_list(t_list *cmd_list)
     t_list  *node;
     t_cmd   *cmd;
 
-    node = cmd_list;
-    while (node)
+    while (cmd_list)
     {
+        node = cmd_list;
         cmd = node->data;
         free(cmd->cmd);
+        free(cmd->heredoc);
         free_str_arr(cmd->args);
         free_str_arr(cmd->file_redirection);
         free(cmd);
-        node = node->next;
+        cmd_list = cmd_list->next;
+        free(node);
     }
-    free(cmd_list);
 }
 
-void	handle_line(char *line, char **envp)
+void	handle_line(char *line, char **envp, int *status)
 {
-    //선언
     t_list  *cmd_list;
+    int std_fd[2];
     
-    //파싱
     //cmd_list = parse_line(line);
-    //SKIM2 화이팅~!(1) ^ ~ ^
     
-
-
-
     //테스트 케이스======================================================= 
     line++;
-    cmd_list = malloc(sizeof(t_list) * 3);
-    
-    cmd_list[0].data = malloc(sizeof(t_cmd));
-    cmd_list[1].data = malloc(sizeof(t_cmd));
-    cmd_list[2].data = malloc(sizeof(t_cmd));
-    cmd_list[0].next = 0;
-    cmd_list[1].next = 0;
-    cmd_list[2].next = 0;
-
-    cmd_list[0].data->cmd = strdup("ls");
-    
-    cmd_list[0].data->args = ft_split("ls -a -l", ' ');
-    
-    cmd_list[0].data->file_redirection = ft_split("<file1 <<file2 >file3 >file4 >>file5", ' ');
-    cmd_list[0].data->pid = 0;
+    cmd_list = malloc(sizeof(t_list));
+    cmd_list->data = malloc(sizeof(t_cmd));
+    cmd_list->data->cmd = strdup("cat");
+    cmd_list->data->args = ft_split("cat -l", ' ');
+    cmd_list->data->file_redirection = ft_split("<<file2", ' ');
+    cmd_list->data->pid = 0;
+    cmd_list->next = 0;
+    cmd_list->data->heredoc=0;
     //==================================================================
-
-    //명령 실행
-    execute_cmd_list(cmd_list, envp);
-    //자식 프로세스 종료 대기
-    wait_child(cmd_list);
-    //부모 프로세스 시그널 켜기 <-  필요없음,
-    //킹갓 SKIM2 화이팅~!(2) > o <
     
-    //동적 할당 해제
+    handle_heredoc(cmd_list);
+    execute_cmd_list(cmd_list, envp, std_fd);
+    wait_child(cmd_list, status);
+    dup2(std_fd[0], 0);
+    dup2(std_fd[1], 1);
     free_cmd_list(cmd_list);
 }
