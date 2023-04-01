@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_name.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:42:26 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/31 13:04:01 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/01 17:34:00 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*get_pathname(char *command, char **envp)
 	
 	envp_path = get_path_variable(envp);
 	pathname = 0;
-	while (*envp_path)
+	while (envp_path && *envp_path)
 	{
 		pathname = cmd_strjoin(*envp_path++, command);
 		if (!access((const char *)pathname, F_OK))

@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 22:29:35 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/31 18:37:55 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/01 18:53:12 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,46 @@ void	handle_redirection_error(int errnum, char *file_name)
 	else if (errnum == 3)
 		ft_putstr_fd(" open error\n", 2); 
 	else
-		ft_putstr_fd(" error\n", 2); 	
+		ft_putstr_fd(" error\n", 2); 
+	free(file_name);
 	exit(1);
 }
 
-void	redirection_input(char *file_name)
+char	*get_file_name(char *file_arg)
+{
+	char	*file_name;
+	int		i;
+    int single_flag;
+    int double_flag;
+    int del;	
+
+	file_name = ft_strdup(file_arg);
+	single_flag = 0;
+    double_flag = 0;
+    i = 0;
+	while (file_name[i])
+	{
+        del = 0;
+        if ((double_flag || !single_flag) && file_name[i] == '$')
+            file_name = set_env_symbol(file_name, i, &del);
+        if (!double_flag && file_name[i] == '\'' && !del)
+            single_flag = flag_switch(single_flag);
+        if (!single_flag && file_name[i] == '\"' && !del)
+            double_flag = flag_switch(double_flag);
+        if (!del)
+            i++;
+	}
+	file_name = delete_quote(file_name);
+	return (file_name);
+}
+
+void	redirection_input(char *file_arg)
 {
 	int		fd;
-	struct stat stats;	
+	struct stat stats;
+	char	*file_name;
 
+	file_name = get_file_name(file_arg);
 	stat(file_name, &stats);
 	if (access(file_name, F_OK))
 		handle_redirection_error(0, file_name);
@@ -44,13 +75,16 @@ void	redirection_input(char *file_name)
 		handle_redirection_error(3, file_name);
 	dup2(fd, 0);
 	close(fd);
+	free(file_name);
 }
 
-void	redirection_output(char *file_name)
+void	redirection_output(char *file_arg)
 {
 	int		fd;
 	struct stat stats;	
+	char	*file_name;
 
+	file_name = get_file_name(file_arg);
 	stat(file_name, &stats);
 	if (!access(file_name, F_OK) && S_ISDIR(stats.st_mode))
 		handle_redirection_error(2, file_name);
@@ -60,13 +94,16 @@ void	redirection_output(char *file_name)
 	if (fd == -1)
 		handle_redirection_error(3, file_name);
 	dup2(fd, 1);
+	free(file_name);
 }
 
-void	redirection_output_append(char *file_name)
+void	redirection_output_append(char *file_arg)
 {
 	int		fd;
-	struct stat stats;	
+	struct stat stats;
+	char	*file_name;
 
+	file_name = get_file_name(file_arg);	
 	stat(file_name, &stats);
 	if (!access(file_name, F_OK) && S_ISDIR(stats.st_mode))
 		handle_redirection_error(2, file_name);
@@ -76,6 +113,7 @@ void	redirection_output_append(char *file_name)
 	if (fd == -1)
 		handle_redirection_error(3, file_name);
 	dup2(fd, 1);
+	free(file_name);
 }
 
 void	redirection_heredoc(char *str)

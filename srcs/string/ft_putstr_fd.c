@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 19:19:29 by inskim            #+#    #+#             */
-/*   Updated: 2022/08/12 19:05:05 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/01 16:02:15 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {
