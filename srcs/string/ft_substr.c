@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/24 22:39:57 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/02 18:00:24 by skim2            ###   ########.fr       */
+/*   Created: 2023/04/02 15:21:34 by inskim            #+#    #+#             */
+/*   Updated: 2023/04/02 18:03:15 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+char	*ft_substr(char *s, int start, int len)
 {
-	unsigned int	i;
+	char	*sub;
+	int		str_len;
+	int		i;
 
-	if (n == 0)
+	if (!s)
 		return (0);
+	str_len = ft_strlen(s);
+	if (start > str_len)
+		return (0);
+	s = s + start;
 	i = 0;
-	while (i++ < n)
+	while (s[i] && len-- > 0)
+		i++;
+	sub = (char *)malloc(sizeof(char) * (i + 1));
+	if (!sub)
+		exit(120);
+	len = i;
+	i = 0;
+	while (len-- > 0)
 	{
-		if (*s1 == *s2)
-		{
-			if (*s1 == 0)
-				return (0);
-		}
-		else
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		s1++;
-		s2++;
+		sub[i] = s[i];
+		i++;
 	}
-	return (0);
+	sub[i] = 0;
+	return (sub);
 }

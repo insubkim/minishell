@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   run_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/24 22:39:57 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/02 18:00:24 by skim2            ###   ########.fr       */
+/*   Created: 2023/04/02 23:13:20 by skim2             #+#    #+#             */
+/*   Updated: 2023/04/03 01:52:01 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	run_env(char **envp)
 {
-	unsigned int	i;
+	int	i;
 
-	if (n == 0)
-		return (0);
 	i = 0;
-	while (i++ < n)
+	while (envp[i])
 	{
-		if (*s1 == *s2)
-		{
-			if (*s1 == 0)
-				return (0);
-		}
-		else
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		s1++;
-		s2++;
+		printf("%s\n", envp[i]);
+		i++;
 	}
-	return (0);
 }

@@ -1,35 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_is_char_space.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/24 22:39:57 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/02 18:00:24 by skim2            ###   ########.fr       */
+/*   Created: 2023/04/02 15:18:18 by inskim            #+#    #+#             */
+/*   Updated: 2023/04/02 18:02:44 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	is_char_space(char c)
 {
-	unsigned int	i;
-
-	if (n == 0)
-		return (0);
-	i = 0;
-	while (i++ < n)
-	{
-		if (*s1 == *s2)
-		{
-			if (*s1 == 0)
-				return (0);
-		}
-		else
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		s1++;
-		s2++;
-	}
-	return (0);
+	return (c == 32 || (c >= 9 && c <= 13));
 }

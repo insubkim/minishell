@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/24 22:39:57 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/02 18:00:24 by skim2            ###   ########.fr       */
+/*   Created: 2023/04/02 15:53:44 by skim2             #+#    #+#             */
+/*   Updated: 2023/04/03 05:02:10 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void    echo(t_cmd *cmd)
 {
-	unsigned int	i;
+    int i;
 
-	if (n == 0)
-		return (0);
-	i = 0;
-	while (i++ < n)
-	{
-		if (*s1 == *s2)
-		{
-			if (*s1 == 0)
-				return (0);
-		}
-		else
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		s1++;
-		s2++;
-	}
-	return (0);
+    i = 1;
+    if (ft_strcmp(cmd->args[1], "-n"))
+        i++;
+    while (cmd->args[i])
+        printf("%s", cmd->args[i++]);
+    if (ft_strcmp(cmd->args[1], "-n"))
+        printf("\n");
+    exit(0);
 }

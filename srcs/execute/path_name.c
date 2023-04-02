@@ -6,10 +6,9 @@
 /*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:42:26 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/01 17:34:00 by skim2            ###   ########.fr       */
+/*   Updated: 2023/04/02 19:18:40 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -55,7 +54,7 @@ void	handle_pathname_error(int errnum, char *command)
 	if (errnum == 0)
 	{
 		ft_putstr_fd(": Permission denied\n", 2);
-		exit(126);	
+		exit (126);
 	}
 	else if (errnum == 1)
 	{
@@ -69,7 +68,7 @@ char	*get_pathname(char *command, char **envp)
 {
 	char	*pathname;
 	char	**envp_path;
-	
+
 	envp_path = get_path_variable(envp);
 	pathname = 0;
 	while (envp_path && *envp_path)

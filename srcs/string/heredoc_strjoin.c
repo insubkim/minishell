@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   heredoc_strjoin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/24 22:39:57 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/02 18:00:24 by skim2            ###   ########.fr       */
+/*   Created: 2023/04/02 15:34:19 by inskim            #+#    #+#             */
+/*   Updated: 2023/04/02 18:03:45 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+char	*heredoc_strjoin(char *s1, char *s2)
 {
-	unsigned int	i;
+	int		len;
+	char	*p;
+	int		i;
 
-	if (n == 0)
-		return (0);
+	if (!s1)
+		len = ft_strlen(s2);
+	else
+		len = ft_strlen(s1) + ft_strlen(s2);
+	p = (char *)malloc(sizeof(char) * (len + 1));
+	if (!p)
+		exit(127);
 	i = 0;
-	while (i++ < n)
+	while (s1 && s1[i])
 	{
-		if (*s1 == *s2)
-		{
-			if (*s1 == 0)
-				return (0);
-		}
-		else
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		s1++;
-		s2++;
+		p[i] = s1[i];
+		i++;
 	}
-	return (0);
+	while (s2 && *s2)
+		p[i++] = *s2++;
+	p[i] = 0;
+	free(s1);
+	return (p);
 }

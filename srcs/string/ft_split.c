@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 19:15:26 by inskim            #+#    #+#             */
-/*   Updated: 2023/03/24 21:41:16 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/02 18:01:09 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	alloc(char **arr, char const *s, int i, int j)
 	len = j - i + 1;
 	*arr = (char *)malloc(sizeof(char) * (len + 1));
 	if (!*arr)
-		return (0);
+		exit(1);
 	(*arr)[len] = 0;
 	k = 0;
 	while (i <= j)
@@ -88,7 +88,7 @@ char	**ft_split(char const *s, char c)
 	word = cnt_word(s, c);
 	arr = (char **)malloc(sizeof(char *) * (word + 1));
 	if (!arr)
-		return (0);
+		exit(1);
 	arr[word] = 0;
 	if (s && !put(arr, s, c))
 	{
