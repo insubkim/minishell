@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 15:21:34 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/02 18:03:15 by skim2            ###   ########.fr       */
+/*   Updated: 2023/04/05 01:40:37 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_substr(char *s, int start, int len)
 		return (0);
 	str_len = ft_strlen(s);
 	if (start > str_len)
-		return (0);
+		return (ft_strdup(""));
 	s = s + start;
 	i = 0;
 	while (s[i] && len-- > 0)

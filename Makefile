@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: inskim <inskim@student.42.fr>              +#+  +:+       +#+         #
+#    By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/15 08:02:44 by inskim            #+#    #+#              #
-#    Updated: 2023/04/03 04:28:33 by inskim           ###   ########.fr        #
+#    Updated: 2023/04/05 04:38:02 by skim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,10 @@ SIGNAL_SRC = signal.c term.c
 STRING_SRC = ft_split.c ft_strlen.c ft_strncmp.c get_last_str.c ft_is_space.c \
 			 ft_strcmp.c ft_strdup.c ft_putstr_fd.c ft_itoa.c \
 			 ft_is_char_space.c ft_substr.c ft_is_printable.c \
-			 heredoc_strjoin.c ft_atoi.c
+			 heredoc_strjoin.c ft_atoi.c env_strjoin.c
 HANDLE_SRC = handle_line.c handle_heredoc.c handle_line_utils.c handle_free.c \
 			handle_error.c
-ENV_SRC = env.c 
+ENV_SRC = env.c add_delete_env.c get_env.c set_pwd.c
 BUILTIN_SRC = builtin.c echo.c export.c unset.c run_env.c run_pwd.c cd.c
 SRC = main.c \
 $(addprefix execute/, $(EXECUTE_SRC)) $(addprefix parse/, $(PARSE_SRC)) \
@@ -47,8 +47,8 @@ all: $(NAME)
 $(NAME): $(OBJ) $(HEADER)
 	cc -o $(NAME) $(OBJ) \
     -lreadline \
-    -L/Users/inskim/.brew/opt/readline/lib \
-    -I/Users/inskim/.brew/opt/readline/include -I.
+    -L/Users/skim2/.brew/opt/readline/lib \
+    -I/Users/skim2/.brew/opt/readline/include -I.
 clean:
 	rm -f $(OBJ)
 

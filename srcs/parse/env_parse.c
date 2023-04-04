@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   env_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 15:51:46 by skim2             #+#    #+#             */
-/*   Updated: 2023/04/04 20:55:19 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/05 03:18:40 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_env_len(char *str, int start)
+int	get_env_len(char *str)
 {
 	int	end;
 	int	len;
 
-	end = start + 1;
+	end = 0;
 	len = 0;
 	while (str[end])
 	{
@@ -31,81 +31,84 @@ int	get_env_len(char *str, int start)
 	return (len);
 }
 
-char	*ft_get_env(char *env, int status)
+char	*ft_get_env(char *env, int status, char **envp)
 {
+	int		i;
+	int		len;
+	char	*tmp;
+
+	len = 0;
+	i = 0;
 	if (!ft_strcmp(env, "?"))
 		return (ft_itoa(status));
-	return (getenv(env));
+	while (envp[i])
+	{
+		if (!strncmp(env, envp[i], ft_strlen(env))
+			&& envp[i][ft_strlen(env)] == '=')
+			break ;
+		i++;
+	}
+	if (!envp[i])
+		return (0);
+	tmp = ft_strdup(envp[i] + ft_strlen(env) + 1);
+	return (tmp);
 }
 
-char	*set_env_symbol(char *str, int start, int *del, int status)
+char	*set_env_symbol(char *str, int *del, int status, char **envp)
 {
 	int		env_len;
 	char	*env;
-	char	*front;
-	char	*back;
 	char	*tmp;
 
-	env_len = get_env_len(str, start);
-	env = ft_substr(str, start + 1, env_len);
-	tmp = ft_get_env(env, status);
+	env_len = get_env_len(str);
+	env = ft_substr(str, 0, env_len);
+	tmp = ft_get_env(env, status, envp);
 	if (!tmp)
 		*del = 1;
 	free(env);
-	env = tmp;
-	front = 0;
-	if (start > 0)
-		front = ft_substr(str, 0, start);
-	back = 0;
-	if (str[start + env_len + 1])
-		back = ft_substr(str, start + env_len + 1, ft_strlen(str));
-	front = heredoc_strjoin(front, env);
-	if (back)
-		front = heredoc_strjoin(front, back);
-	free(back);
-	free(str);
-	return (front);
+	tmp = heredoc_strjoin(tmp, &str[env_len]);
+	return (tmp);
 }
 
-void	check_env_symbol(t_cmd *cmd, int status)
+int	check_redir_env(char *line, int i)
+{
+	i--;
+	while (i > 0 && line[i] == ' ')
+		i--;
+	while (i > 0)
+	{
+		if (line[i] == '<' && line[i - 1] == '<')
+			return (0);
+		i--;
+	}
+	return (1);
+}
+
+char	*env_handle(char *l, int status, char **envp)
 {
 	int	i;
-	int	single_flag;
-	int	double_flag;
+	int	s_flag;
+	int	d_flag;
 	int	del;
-	int	y;
 
-	single_flag = 0;
-	double_flag = 0;
-	i = -1;
-	while (cmd->args && cmd->args[++i])
+	del = 0;
+	s_flag = 0;
+	d_flag = 0;
+	i = 0;
+	while (l[i] != '\0')
 	{
-		y = 0;
-		while (cmd->args[i] && cmd->args[i][y])
+		del = 0;
+		if ((d_flag || !s_flag) && l[i] == '$' && check_redir_env(l, i))
 		{
-			del = 0;
-			if ((double_flag || !single_flag) && cmd->args[i][y] == '$')
-				cmd->args[i] = set_env_symbol(cmd->args[i], y, &del, status);
-			if (!double_flag && cmd->args[i][y] == '\'' && !del)
-				single_flag = flag_switch(single_flag);
-			if (!single_flag && cmd->args[i][y] == '\"' && !del)
-				double_flag = flag_switch(double_flag);
-			if (!del)
-				y++;
+			l[i] = 0;
+			l = env_strjoin(l, set_env_symbol(&l[i + 1], &del, status, envp));
 		}
+		if (!d_flag && l[i] == '\'' && !del)
+			s_flag = flag_switch(s_flag);
+		if (!s_flag && l[i] == '\"' && !del)
+			d_flag = flag_switch(d_flag);
+		if (!del)
+			i++;
 	}
-}
-
-
-void	env_handle(t_list *list, int status)
-{
-	t_cmd	*cmd;
-
-	cmd = list->data;
-	while (cmd)
-	{
-		if (ft_strcmp(cmd->args[0], "awk"))
-			check_env_symbol(cmd, status);
-		cmd = cmd->next;
-	}
+	return (l);
 }

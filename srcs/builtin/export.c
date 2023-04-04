@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 17:00:17 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/03 02:02:01 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/05 04:30:51 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	export_error(char *s)
 {
 	ft_putstr_fd("minishell: export:", 2);
 	ft_putstr_fd(s, 2);
-	ft_putstr_fd("not a valid identifier\n", 2);
+	ft_putstr_fd(" not a valid identifier\n", 2);
 	exit(1);
 }
 
@@ -32,7 +32,7 @@ void	export_check_name(t_cmd *cmd)
 {
 	int	i;
 	int	j;
-	
+
 	i = 1;
 	while (cmd->args[i])
 	{
@@ -45,7 +45,7 @@ void	export_check_name(t_cmd *cmd)
 				continue ;
 			else if (cmd->args[i][j] == '=')
 				break ;
-			export_error(cmd->args[i]);	
+			export_error(cmd->args[i]);
 		}
 		if (cmd->args[i][j] != '=')
 			export_error(cmd->args[i]);
@@ -57,7 +57,7 @@ void	export_check_val(t_cmd *cmd)
 {
 	int	i;
 	int	j;
-	
+
 	i = 1;
 	while (cmd->args[i])
 	{
@@ -74,10 +74,9 @@ void	export_check_val(t_cmd *cmd)
 
 void	ft_export(t_cmd *cmd, int *pipe)
 {
-	int	i;
+	int		i;
 	char	c;
 
-	//if null print 
 	export_check_name(cmd);
 	export_check_val(cmd);
 	write(pipe[1], "M", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 15:59:24 by skim2             #+#    #+#             */
-/*   Updated: 2023/04/02 18:23:00 by skim2            ###   ########.fr       */
+/*   Updated: 2023/04/04 23:49:13 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ char	*delete_quote(char *s)
 			s[i] = 0;
 			s = heredoc_strjoin(s, &(s[i-- + 1]));
 		}
-		if (!single_flag && s[i] == '\"')
+		else if (!single_flag && s[i] == '\"')
 		{
-			double_flag = flag_switch(single_flag);
+			double_flag = flag_switch(double_flag);
 			s[i] = 0;
 			s = heredoc_strjoin(s, &(s[i-- + 1]));
 		}

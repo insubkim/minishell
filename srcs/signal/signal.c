@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 21:32:45 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/02 18:05:10 by skim2            ###   ########.fr       */
+/*   Updated: 2023/04/05 05:57:09 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ void	heredoc_signal_handler(int sig)
 	if (SIGINT == sig)
 	{
 		close(0);
-		heredoc_sigint = 1;
+		g_heredoc_sigint = 1;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_line_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 14:12:34 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/04 20:47:42 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/05 03:20:06 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	set_cmd(t_list *list, int *std_fd)
 
 	cur = list->data;
 	std_fd[0] = dup(0);
-	dup2(std_fd[1], 1);
+	std_fd[1] = dup(1);
 	pipe(&(std_fd[2]));
 	while (cur)
 	{
@@ -39,6 +39,7 @@ void	reset_handle(int *std_fd, t_parse *parse, \
 		t_list *list, t_separate_list *slist)
 {
 	dup2(std_fd[0], 0);
+	dup2(std_fd[1], 1);
 	close(std_fd[0]);
 	close(std_fd[1]);
 	free_parse(parse);
@@ -46,13 +47,11 @@ void	reset_handle(int *std_fd, t_parse *parse, \
 	free_separate_list(slist);
 }
 
-void	set_parse(t_list *list, t_separate_list *slist, \
-		t_parse *parse, int status)
+void	set_parse(t_list *list, t_separate_list *slist, t_parse *parse)
 {
 	add_parse(parse, slist);
 	args_count(slist, parse);
 	parsing(list, slist, parse);
-	env_handle(list, status);
 	erase_quote(list);
 }
 

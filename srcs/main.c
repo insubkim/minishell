@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 19:53:16 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/03 01:51:36 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/05 05:56:48 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	prompt(struct termios *term, int *status, char ***envp)
 {
 	char	*line;
 
-	line = "Black Hole plz...";	
+	line = "Black Hole plz...";
 	while (line)
 	{
 		line = readline("minishell> ");
-		heredoc_sigint = 0;
+		g_heredoc_sigint = 0;
 		if (line)
 		{
 			if (ft_strlen(line) > 0)
@@ -35,11 +35,11 @@ void	prompt(struct termios *term, int *status, char ***envp)
 	}
 }
 
-char **create_envp(char **envp)
+char	**create_envp(char **envp)
 {
-	char **temp;
-	int	i;
-	int	j;
+	char	**temp;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (envp[i])
@@ -61,12 +61,12 @@ char **create_envp(char **envp)
 	return (temp);
 }
 
-char **dup_envp(char **envp)
+char	**dup_envp(char **envp)
 {
-	char **temp;
-	int	i;
-	int	j;
-	
+	char	**temp;
+	int		i;
+	int		j;
+
 	temp = create_envp(envp);
 	i = 0;
 	while (envp[i])
@@ -89,11 +89,13 @@ int	main(int argc, char **argv, char **envp)
 	int				status;
 	struct termios	term[2];
 
+	if (argc != 1)
+		return (0);
 	set_signal();
 	save_input_mode(term);
 	envp = dup_envp(envp);
 	status = 0;
 	prompt(term, &status, &envp);
 	argv++;
-	return (!argc);
+	return (0);
 }

@@ -3,29 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   handle_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 20:37:44 by insub             #+#    #+#             */
-/*   Updated: 2023/04/04 20:58:19 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/05 05:58:34 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    set_env(int *pipe, char ***envp)
+void	set_env(int *pipe, char ***envp, int *status)
 {
-    char    c;
-    
-    close(pipe[1]);
-    c = 0;
-    read(pipe[0], &c, 1);
-    if (c == 'M')
-        add_env(pipe[0], envp);
-    else if (c == 'D')
-        delete_env(pipe[0], *envp);
+	char	c;
+
+	close(pipe[1]);
+	c = 0;
+	read(pipe[0], &c, 1);
+	if (c == 'M')
+		add_env(pipe[0], envp);
+	else if (c == 'D')
+		delete_env(pipe[0], envp);
 	else if (c == 'C')
-		change_dir(pipe[0], *envp);
-    close(pipe[0]);
+		change_dir(pipe[0], envp, status);
+	else if (c == 'E')
+		exit(get_status(pipe[0]));
+	close(pipe[0]);
 }
 
 void	wait_child(t_list *cmd_list, int *status, int *pipe, char ***envp)
@@ -40,15 +42,15 @@ void	wait_child(t_list *cmd_list, int *status, int *pipe, char ***envp)
 		pid = node->pid;
 		if (pid)
 			waitpid(-1, &tmp, 0);
-		if (FT_WIFEXITED(tmp))
-			*status = FT_WEXITSTATUS(tmp);
-		else if (FT_WIFSIGNALED(tmp))
-			*status = FT_WTERMSIG(tmp);
+		if (WIFEXITED(tmp))
+			*status = WEXITSTATUS(tmp);
+		else if (WIFSIGNALED(tmp))
+			*status = WTERMSIG(tmp);
 		else
 			*status = 124;
 		node = node->next;
 	}
-	set_env(pipe, envp);
+	set_env(pipe, envp, status);
 }
 
 void	separate_dup(t_separate_list *list)
@@ -93,14 +95,16 @@ void	handle_line(char *line, char ***envp, int *status, struct termios *term)
 	separate_list = init_cmd_list();
 	cmd_list = init_list();
 	parse = init_parse();
+	line = env_handle(ft_strdup(line), save_prev_status, *envp);
 	ready_separate(separate_list, line, status);
 	if (check_list_quote(separate_list, status))
-		set_parse(cmd_list, separate_list, parse, save_prev_status);
+		set_parse(cmd_list, separate_list, parse);
 	set_cmd(cmd_list, std_fd);
-	if (handle_heredoc(cmd_list, term) && !*status)
+	if (handle_heredoc(cmd_list, term, *envp) && !*status)
 	{
 		execute_cmd_list(cmd_list, *envp, std_fd, save_prev_status);
 		wait_child(cmd_list, status, &(std_fd[2]), envp);
 	}
 	reset_handle(std_fd, parse, cmd_list, separate_list);
+	free(line);
 }

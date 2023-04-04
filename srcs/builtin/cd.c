@@ -3,67 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 22:24:39 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/04 20:48:14 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/05 05:53:01 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cd_error(int	cd_error, char *arg)
+void	cd_error(int cd_error)
 {
 	if (cd_error == 0)
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 	else if (cd_error == 1)
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(" No such file or directory", 2);
-	}
-	else if (cd_error == 2) 
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(" Permission denied", 2);
-	}
-	else
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(" Not a directory", 2);
-	}
+		ft_putstr_fd("minishell: cd: OLDHOME not set\n", 2);
 	exit(1);
-}
-
-void	get_dest(char *dest)
-{
-	//is absolute
-
-	//is relative
-	
-	dest++;
-
-
-	//1.check file
-	//2.check is dir
-	//3.check permission
 }
 
 void	cd(t_cmd *cmd, int *pipe, char **envp)
 {
 	char	*home;
+	char	*old_home;
 	char	*dest;
 
 	home = get_pwd(envp);
-	if (!home && !cmd->args[1])
-		cd_error(0, "");
-	dest = 0;
+	dest = cmd->args[1];
 	if (!cmd->args[1])
-		dest = home;
-	// else
-	// 	dest = get_dest(cmd->args[1]);
+		dest = &(home[4]);
+	if (!home && !cmd->args[1])
+		cd_error(0);
+	old_home = get_old_pwd(envp);
+	if (!ft_strncmp(cmd->args[1], "-", 1) && !old_home)
+		cd_error(1);
+	if (!ft_strncmp(cmd->args[1], "-", 1))
+		dest = &(old_home[7]);
 	write(pipe[1], "C", 1);
 	write(pipe[1], dest, ft_strlen(dest));
 	exit(0);

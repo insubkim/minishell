@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 18:09:38 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/03 02:02:10 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/05 03:40:59 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	unset_check_name(t_cmd *cmd)
 {
 	int	i;
 	int	j;
-	
+
 	i = 1;
 	while (cmd->args[i])
 	{
@@ -43,7 +43,7 @@ void	unset_check_name(t_cmd *cmd)
 
 void	unset(t_cmd *cmd, int *pipe)
 {
-	int	i;
+	int		i;
 	char	c;
 
 	unset_check_name(cmd);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   file_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 22:29:35 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/02 19:18:13 by skim2            ###   ########.fr       */
+/*   Updated: 2023/04/04 23:32:42 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_file_name(char *file_arg, int status)
+char	*get_file_name(char *file_arg, int status, char **envp)
 {
 	char	*file_name;
 	int		i;
@@ -28,7 +28,7 @@ char	*get_file_name(char *file_arg, int status)
 	{
 		del = 0;
 		if ((double_flag || !single_flag) && file_name[i] == '$')
-			file_name = set_env_symbol(file_name, i, &del, status);
+			file_name = set_env_symbol(&file_name[i + 1], &del, status, envp);
 		if (!double_flag && file_name[i] == '\'' && !del)
 			single_flag = flag_switch(single_flag);
 		if (!single_flag && file_name[i] == '\"' && !del)
@@ -40,13 +40,13 @@ char	*get_file_name(char *file_arg, int status)
 	return (file_name);
 }
 
-void	redirection_input(char *file_arg, int status)
+void	redirection_input(char *file_arg, int status, char **envp)
 {
 	int			fd;
 	struct stat	stats;
 	char		*file_name;
 
-	file_name = get_file_name(file_arg, status);
+	file_name = get_file_name(file_arg, status, envp);
 	stat(file_name, &stats);
 	if (access(file_name, F_OK))
 		handle_redirection_error(0, file_name);
@@ -60,13 +60,13 @@ void	redirection_input(char *file_arg, int status)
 	free(file_name);
 }
 
-void	redirection_output(char *file_arg, int status)
+void	redirection_output(char *file_arg, int status, char **envp)
 {
 	int			fd;
 	struct stat	stats;	
 	char		*file_name;
 
-	file_name = get_file_name(file_arg, status);
+	file_name = get_file_name(file_arg, status, envp);
 	stat(file_name, &stats);
 	if (!access(file_name, F_OK) && S_ISDIR(stats.st_mode))
 		handle_redirection_error(2, file_name);
@@ -79,13 +79,13 @@ void	redirection_output(char *file_arg, int status)
 	free(file_name);
 }
 
-void	redirection_output_append(char *file_arg, int status)
+void	redirection_output_append(char *file_arg, int status, char **envp)
 {
 	int			fd;
 	struct stat	stats;
 	char		*file_name;
 
-	file_name = get_file_name(file_arg, status);
+	file_name = get_file_name(file_arg, status, envp);
 	stat(file_name, &stats);
 	if (!access(file_name, F_OK) && S_ISDIR(stats.st_mode))
 		handle_redirection_error(2, file_name);

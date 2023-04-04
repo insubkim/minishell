@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 15:49:31 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/02 18:24:41 by skim2            ###   ########.fr       */
+/*   Updated: 2023/04/05 03:18:55 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	check_quote(char *str)
 			double_quote = 0;
 		if (single_quote || double_quote)
 			return (0);
-		str++;
+		if (*str)
+			str++;
 	}
 	return (1);
 }

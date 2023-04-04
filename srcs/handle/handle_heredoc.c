@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skim2 <skim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 14:44:17 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/02 18:46:17 by skim2            ###   ########.fr       */
+/*   Updated: 2023/04/05 04:17:08 by skim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,16 @@ void	read_heredoc(t_cmd *cmd, char *delimiter)
 	}
 }
 
-void	set_heredoc(t_cmd *cmd, char *delimiter_arg)
+void	set_heredoc(t_cmd *cmd, char *delimiter_arg, char **envp)
 {
 	char	*delimeter;
 
-	delimeter = get_file_name(delimiter_arg, -1);
+	delimeter = get_file_name(delimiter_arg, -1, envp);
 	read_heredoc(cmd, delimeter);
 	free(delimeter);
 }
 
-int	handle_heredoc(t_list *cmd_list, struct termios *term)
+int	handle_heredoc(t_list *cmd_list, struct termios *term, char **envp)
 {
 	char	**redirection;
 	t_cmd	*cmd;
@@ -81,10 +81,10 @@ int	handle_heredoc(t_list *cmd_list, struct termios *term)
 				heredoc_set_signal();
 				set_input_mode(term + 1);
 				free(cmd->heredoc);
-				set_heredoc(cmd, &((*redirection)[2]));
+				set_heredoc(cmd, &((*redirection)[2]), envp);
 				reset_input_mode(term);
 				set_signal();
-				if (heredoc_sigint)
+				if (g_heredoc_sigint)
 					return (0);
 			}
 			redirection++;
