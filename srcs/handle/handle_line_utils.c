@@ -6,17 +6,20 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 14:12:34 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/03 05:22:03 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/04 20:47:42 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_cmd(t_list *list)
+void	set_cmd(t_list *list, int *std_fd)
 {
 	t_cmd	*cur;
 
 	cur = list->data;
+	std_fd[0] = dup(0);
+	dup2(std_fd[1], 1);
+	pipe(&(std_fd[2]));
 	while (cur)
 	{
 		cur->cmd = ft_strdup(cur->args[0]);

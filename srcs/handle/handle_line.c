@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 20:37:44 by insub             #+#    #+#             */
-/*   Updated: 2023/04/03 04:27:17 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/04 20:58:19 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,11 @@ void	handle_line(char *line, char ***envp, int *status, struct termios *term)
 	ready_separate(separate_list, line, status);
 	if (check_list_quote(separate_list, status))
 		set_parse(cmd_list, separate_list, parse, save_prev_status);
-	set_cmd(cmd_list);
-	std_fd[0] = dup(0);
-	pipe(&(std_fd[2]));
+	set_cmd(cmd_list, std_fd);
 	if (handle_heredoc(cmd_list, term) && !*status)
 	{
 		execute_cmd_list(cmd_list, *envp, std_fd, save_prev_status);
 		wait_child(cmd_list, status, &(std_fd[2]), envp);
-		dup2(std_fd[1], 1);
 	}
 	reset_handle(std_fd, parse, cmd_list, separate_list);
 }

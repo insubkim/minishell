@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 22:24:39 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/03 05:50:18 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/04 20:48:14 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	cd(t_cmd *cmd, int *pipe, char **envp)
 	dest = 0;
 	if (!cmd->args[1])
 		dest = home;
-	else
-		dest = get_dest(cmd->args[1]);
+	// else
+	// 	dest = get_dest(cmd->args[1]);
 	write(pipe[1], "C", 1);
 	write(pipe[1], dest, ft_strlen(dest));
 	exit(0);

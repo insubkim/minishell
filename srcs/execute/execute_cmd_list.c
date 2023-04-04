@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 19:48:54 by inskim            #+#    #+#             */
-/*   Updated: 2023/04/03 01:41:28 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/04 20:29:09 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	execute_cmd_list(t_list *cmd_list, char **envp, int *std_fd, int status)
 	int		read_end;
 	t_cmd	*cmd;
 
-	std_fd[0] = dup(0);
-	std_fd[1] = dup(1);
 	read_end = -1;
 	cmd = cmd_list->data;
 	while (cmd)

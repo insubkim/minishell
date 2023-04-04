@@ -6,7 +6,7 @@
 /*   By: inskim <inskim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 15:51:46 by skim2             #+#    #+#             */
-/*   Updated: 2023/04/03 02:43:06 by inskim           ###   ########.fr       */
+/*   Updated: 2023/04/04 20:55:19 by inskim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,11 @@ void	check_env_symbol(t_cmd *cmd, int status)
 	}
 }
 
+
 void	env_handle(t_list *list, int status)
 {
-	int		flag;
 	t_cmd	*cmd;
 
-	flag = 0;
 	cmd = list->data;
 	while (cmd)
 	{
